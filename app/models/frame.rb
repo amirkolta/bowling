@@ -18,6 +18,9 @@ class Frame < ApplicationRecord
   validate :valid_rolls_length
   validates :position, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 10 }
 
+  # Returns the rolls in an array of strings
+  #
+  # @return [String[]]
   def parsed_rolls
     return [] unless rolls.present?
     rolls.split(',')
