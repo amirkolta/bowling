@@ -1,21 +1,76 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-valid_frame:
-  rolls: 9,Miss
+complete_frame:
+  rolls: ['9', 'Miss']
   position: 1
   score: 9
 
+incomplete_frame:
+  rolls: ['9']
+  position: 2
+  score: 9
+
+final_complete_frame:
+  rolls: ['Strike', '8', '1']
+  position: 10
+  score: 9
+
+final_strike_frame:
+  rolls: ['Strike', '8']
+  position: 10
+
+final_ten_total_frame:
+  rolls: ['9', '1']
+  position: 10
+
+final_incomplete_frame:
+  rolls: ['9']
+  position: 10
+  score: 9
+
+final_less_than_ten_total_frame:
+  rolls: ['2', '4']
+  position: 10
+
+final_ten_total_frame_complete:
+  rolls: ['9', '1', '5']
+  position: 10
+
+strike_frame:
+  rolls: ['Strike']
+  position: 2
+  score: 9
+
 frame_with_invalid_rolls:
-  rolls: 9,Hello
+  rolls: ['9', 'Hello']
   position: 1
   score: 9
 
 frame_more_than_two_rolls:
-  rolls: 9,Miss,Miss
+  rolls: ['9', 'Miss', 'Miss']
   position: 3
   score: 20
 
 final_frame_more_than_three_rolls:
-  rolls: 9,Miss,Miss,1
+  rolls: ['9', 'Miss', 'Miss', '1']
   position: 10
   score: 20
+
+game_one_init_frame:
+  game: game_one
+  position: 1
+
+game_two_first_frame:
+  game: game_two
+  rolls: ['9']
+  position: 1
+
+game_three_first_frame:
+  game: game_three
+  rolls: ['9', '1']
+  position: 1
+
+game_three_second_frame:
+  game: game_three
+  rolls: ['Strike']
+  position: 2
