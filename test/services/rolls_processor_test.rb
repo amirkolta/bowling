@@ -57,22 +57,80 @@ class RollsProcessorTest < ActiveSupport::TestCase
     assert_equal g.frames[2].rolls, ["9"]
   end
 
-  test "it skips over Miss" do
+  test "score doesn't change on Miss" do
+    g = games(:game_one)
+    processor = RollsProcessor.new(g)
+
+    processor.process(['1', '1'])
+    assert_equal g.get_frame(1).score, 2
+
+    processor.process(['Miss'])
+
+    assert_equal g.get_frame(1).score, 2
+    assert_equal g.get_frame(2).score, 2
   end
 
   test "does not give retrospective bonus for third roll in final frame" do
+    g = Game.create
+    processor = RollsProcessor.new(g)
+
+    processor.process(['Strike', '7', 'Spare', '9', 'Miss', 'Strike', 'Miss', '8', '8', 'Spare', 'Miss', '6', 'Strike', 'Strike', 'Strike', '8'])
+    assert_equal g.get_frame(9).score, 148
+    assert_equal g.get_frame(10).score, 166
+
+    processor.process(['2'])
+    assert_equal g.get_frame(9).score, 148
+    assert_equal g.get_frame(10).score, 168
   end
 
   test "updates the score if only one strike is behind" do
+    g = Game.create
+    processor = RollsProcessor.new(g)
+
+    processor.process(['Strike', '7', 'Spare', '9', 'Miss', 'Strike'])
+    assert_equal g.get_frame(4).score, 58
+
+    processor.process(['1'])
+    assert_equal g.get_frame(4).score, 59
+
+    processor.process(['8'])
+    assert_equal g.get_frame(4).score, 67
   end
 
   test "updates the score as far as 2 strikes in previous frames" do
+    g = Game.create
+    processor = RollsProcessor.new(g)
+
+    processor.process(['Strike', 'Strike'])
+    assert_equal g.get_frame(1).score, 20
+    assert_equal g.get_frame(2).score, 30
+
+    processor.process(['8'])
+    assert_equal g.get_frame(1).score, 28
+    assert_equal g.get_frame(2).score, 46
   end
 
   test "updates the score for spare in the previous frame" do
+    g = Game.create
+    processor = RollsProcessor.new(g)
+
+    processor.process(['Strike', '7', 'Spare'])
+    assert_equal g.get_frame(1).score, 20
+    assert_equal g.get_frame(2).score, 30
+
+    processor.process(['1'])
+    assert_equal g.get_frame(2).score, 31
+
+    processor.process(['1'])
+    assert_equal g.get_frame(2).score, 31
   end
 
   test "adds score to current frame" do
+    g = Game.create
+    processor = RollsProcessor.new(g)
+
+    processor.process(['Strike'])
+    assert_equal g.get_frame(1).score, 10
   end
 
   test "returns if game is done" do
