@@ -1,6 +1,6 @@
 class Game < ApplicationRecord
   # Associations
-  has_many :frames, :dependent => :destroy
+  has_many :frames, -> { order(position: :asc) }, :dependent => :destroy
 
   # Validations
   validates :frames, length: {maximum: 10}
@@ -8,10 +8,18 @@ class Game < ApplicationRecord
   # Callbacks
   after_create :init_frame
 
+  # The last frame in frames
+  #
+  # @return [Frame]
+  #
   def current_frame
     frames.last
   end
 
+  # Retruns the frame before current or nil if current if position 1
+  #
+  # @return [Frame, nil]
+  #
   def previous_frame
     return nil if frames.size == 1
 
@@ -25,6 +33,20 @@ class Game < ApplicationRecord
     return if current_frame.position > 9
 
     self.frames << Frame.new(position: current_frame.position + 1, score: current_frame.score)
+  end
+
+  # Returns frame based on position
+  #
+  # @return [Frame]
+  #
+  def get_frame(position)
+    frames.find_by(position: position)
+  end
+
+  # @return [Boolean]
+  #
+  def complete?
+    current_frame.position == 10 && current_frame.complete?
   end
 
   private

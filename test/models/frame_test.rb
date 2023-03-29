@@ -13,10 +13,22 @@ class FrameTest < ActiveSupport::TestCase
     assert_not frame.save, 'You cannot roll more than twice before the 10th frame'
   end
 
+  test "should not save if a regular frame has more rolls after a strike" do
+    frame = frames(:incorrect_strike_regular_frame)
+
+    assert_not frame.save, 'You cannot roll more than onece before the 10th frame if you roll a strike'
+  end
+
   test "should not save if a final frame has more than 3 rolls" do
     frame = frames(:final_frame_more_than_three_rolls)
 
     assert_not frame.save, 'You cannot roll more than 3 times in the 10th frame'
+  end
+
+  test "should not save if a final frame has more than 2 rolls and the first 2 rolls do not add up to 10" do
+    frame = frames(:incorrect_bonus_final_frame)
+
+    assert_not frame.save, 'You are not allowed a bonus roll in the final frame'
   end
 
   test "#complete?" do
@@ -81,5 +93,39 @@ class FrameTest < ActiveSupport::TestCase
     frame = frames(:game_two_first_frame)
     frame.add_roll('1')
     assert_equal frame.rolls, ['9', '1']
+  end
+
+  test "#spare?" do
+    assert frames(:spare_frame).spare?
+    assert_not frames(:complete_frame).spare?
+  end
+
+  test "#strike?" do
+    assert frames(:strike_frame).strike?
+    assert_not frames(:spare_frame).strike?
+  end
+
+  test "#add_score" do
+    frame = frames(:incomplete_frame)
+    frame.add_score(1)
+    assert_equal frame.score, 10
+  end
+
+  test "#final?" do
+    assert_not frames(:incomplete_frame).final?
+    assert frames(:final_complete_frame).final?
+  end
+
+  test "final_frame_bonus?" do
+    #final frame with 10 knocked down and 3 rolls
+    assert frames(:final_complete_frame).final_frame_bonus?
+    assert frames(:final_ten_total_frame_complete).final_frame_bonus?
+
+    #final frame with less than 10 knocked down and 2 rolls
+    assert_not frames(:final_less_than_ten_total_frame).final_frame_bonus?
+  end
+
+  test "#size" do
+    assert_equal frames(:final_complete_frame).size, 3
   end
 end

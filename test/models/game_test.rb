@@ -37,4 +37,28 @@ class GameTest < ActiveSupport::TestCase
 
     assert_equal game.frames.size, 2
   end
+
+  test "frames are loaded in order of position" do
+    game = Game.create
+    game.frames << Frame.new(position: 4)
+    game.frames << Frame.new(position: 2)
+    game.frames << Frame.new(position: 3)
+    game.reload
+    assert_equal game.frames[0].position, 1
+    assert_equal game.frames[1].position, 2
+    assert_equal game.frames[2].position, 3
+    assert_equal game.frames[3].position, 4
+  end
+
+  test "#get_frame" do
+    # gets frame by position
+    assert_equal games(:game_three).get_frame(2).id, frames(:game_three_second_frame).id 
+
+    # returns nil if out of bounds
+    assert_nil games(:game_three).get_frame(5)
+  end
+
+  test "#complete?" do
+    assert games(:complete_game).complete?
+  end
 end

@@ -6,6 +6,7 @@ complete_frame:
   score: 9
 
 incomplete_frame:
+  game: game_four
   rolls: ['9']
   position: 2
   score: 9
@@ -74,3 +75,20 @@ game_three_second_frame:
   game: game_three
   rolls: ['Strike']
   position: 2
+
+spare_frame:
+  rolls: ['1', 'Spare']
+  position: 2
+
+incorrect_bonus_final_frame:
+  rolls: ['1', '2', '5']
+  position: 10
+
+incorrect_strike_regular_frame:
+  rolls: ['Strike', '1']
+  position: 5
+
+complete_game_final_frame:
+  game: complete_game
+  rolls: ['1', 'Miss']
+  position: 10
