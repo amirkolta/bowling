@@ -1,10 +1,14 @@
 # Bowling Challenge
 
-## There will be 2 methods to test this app:
-
-
 **Note: I have provided a simple view to inspect the current state of the game at http://localhost:3000/game**
 
+
+## Initial Setup:
+1. `bundle install`
+2. `bundle exec rake db:setup`
+3. `bundle exec rails s`
+
+## There will be 2 methods to test this app:
 
 ### 1- Through the rails console:
 
@@ -16,7 +20,7 @@
   ```ruby
     RollsProcessor.process(game, ['Strike', '7', 'Spare', '9', 'Miss', 'Strike', 'Miss', '8', '8', 'Spare', 'Miss', '6', 'Strike', 'Strike', 'Strike', '8', '1'])
   ```
-* Make sure the server is started with `rails s` and go check http://localhost:3000/game
+* Go check http://localhost:3000/game
 
 ### 2- Through the api using curl, Postman,...etc:
 
