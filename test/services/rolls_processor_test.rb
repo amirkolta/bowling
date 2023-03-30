@@ -124,5 +124,13 @@ class RollsProcessorTest < ActiveSupport::TestCase
   end
 
   test "returns if game is done" do
+    g = Game.create
+    RollsProcessor.process(g, ['Strike', '7', 'Spare', '9', 'Miss', 'Strike', 'Miss', '8', '8', 'Spare', 'Miss', '6', 'Strike', 'Strike', 'Strike', '8', '1'])
+
+    assert g.complete?
+
+    RollsProcessor.process(g, ['Strike', '7'])
+
+    assert_equal g.reload.frames.size, 10
   end
 end
