@@ -10,7 +10,7 @@ class Frame < ApplicationRecord
     (1..9).map(&:to_s),
   ].flatten.freeze
 
-  serialize :rolls
+  serialize :rolls, Array
 
   # Associations
   belongs_to :game
@@ -58,10 +58,29 @@ class Frame < ApplicationRecord
 
   # @param [String]
   #
-  def add_roll(roll)
+  # @return [Integer]
+  def add_roll_and_get_knocked_pins(roll)
     return if complete?
+
     self.rolls << roll
+    self.score += knocked_pins
     save!
+    
+    return knocked_pins
+  end
+
+  def knocked_pins
+    if strike?
+      return 10
+    elsif spare?
+      if rolls.first == Frame::MISS
+        return 10
+      else
+        return 10 - rolls.first.to_i
+      end
+    else
+      return rolls.last.to_i
+    end
   end
 
   # @return [Boolean]

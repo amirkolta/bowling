@@ -89,10 +89,10 @@ class FrameTest < ActiveSupport::TestCase
     assert_not frames(:final_less_than_ten_total_frame).incomplete?
   end
 
-  test "#add_roll" do
+  test "#add_roll_and_get_knocked_pins" do
     frame = frames(:game_two_first_frame)
-    frame.add_roll('1')
-    assert_equal frame.rolls, ['9', '1']
+    assert_equal frame.add_roll_and_get_knocked_pins('Miss'), 0
+    assert_equal frame.rolls, ['9', 'Miss']
   end
 
   test "#spare?" do

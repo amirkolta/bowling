@@ -1,14 +1,9 @@
 class RollsProcessor
-  def initialize(game)
-    @game = game
-    @single_roll_processor = SingleRollProcessor.new(game)
-  end
-
-  def process(rolls)
-    return if @game.complete?
+  def self.process(game, rolls)
+    return if game.complete?
 
     while rolls.any?
-      @single_roll_processor.process(rolls.shift)
+      SingleRollProcessor.process(game, rolls.shift)
     end
   end
 end

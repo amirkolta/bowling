@@ -52,7 +52,7 @@ class Game < ApplicationRecord
   private
 
   def init_frame
-    first_frame = Frame.new(position: 1)
+    first_frame = Frame.new(position: 1, score: 0)
     self.frames = [first_frame]
     save
   end

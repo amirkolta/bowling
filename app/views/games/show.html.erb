@@ -1,0 +1,43 @@
+<table>
+  <tr>
+    <th>Frame</th>
+    <th>1</th>
+    <th>2</th>
+    <th>3</th>
+    <th>4</th>
+    <th>5</th>
+    <th>6</th>
+    <th>7</th>
+    <th>8</th>
+    <th>9</th>
+    <th>10</th>
+  </tr>
+  <tr>
+    <td>Rolls</td>
+    <% @game.frames.each do |frame| %>
+      <td><%= transformed_rolls(frame.rolls) %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <td>Score</td>
+    <% @game.frames.each do |frame| %>
+      <td><%= frame.score %></td>
+    <% end %>
+  </tr>
+</table>
+
+<style type="text/css">
+  table, th, td {
+    border: 1px solid black;
+  }
+
+  table {
+    table-layout: fixed ;
+    width: 40% ;
+  }
+
+  td {
+    width: 10% ;
+    text-align: center;
+  }
+</style>

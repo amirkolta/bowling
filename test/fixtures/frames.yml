@@ -65,6 +65,7 @@ game_two_first_frame:
   game: game_two
   rolls: ['9']
   position: 1
+  score: 9
 
 game_three_first_frame:
   game: game_three
