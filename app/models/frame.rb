@@ -69,6 +69,10 @@ class Frame < ApplicationRecord
     return knocked_pins
   end
 
+  # Calculates the number of knocked pins based on the last roll in the frame
+  #
+  # @return [Integer]
+  #
   def knocked_pins
     if strike?
       return 10

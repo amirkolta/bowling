@@ -1,4 +1,7 @@
 class GamesController < ApplicationController
+  # before_action :validate_rolls, only: [:rolls]
+  rescue_from ActiveRecord::RecordInvalid, :with => :invalid_error_render
+
   def create
     Game.create
   end
@@ -16,6 +19,10 @@ class GamesController < ApplicationController
   private
   
   def rolls_array
-    params[:rolls].split(',').map(&:strip)
+    params[:input].split(',').map(&:strip)
+  end
+
+  def invalid_error_render(error)
+    render json: error
   end
 end
