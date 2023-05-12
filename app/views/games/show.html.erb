@@ -14,15 +14,25 @@
   </tr>
   <tr>
     <td>Rolls</td>
-    <% @game.frames.each do |frame| %>
-      <td><%= transformed_rolls(frame.rolls) %></td>
-    <% end %>
+    <% for frame_position in (1..10) do %>
+      <%- frame = @game.get_frame(frame_position) %>
+      <% if frame %>
+        <td><%= transformed_rolls(frame.rolls) %></td>
+      <% else %>
+        <td></td>
+      <% end %>  
+    <% end %> 
   </tr>
   <tr>
     <td>Score</td>
-    <% @game.frames.each do |frame| %>
-      <td><%= frame.score %></td>
-    <% end %>
+      <% for frame_position in (1..10) do %>
+        <%- frame = @game.get_frame(frame_position) %>
+        <% if frame&.complete? && frame.bonus_rolls_needed <= 0 %>
+          <td><%= frame.score %></td>
+        <% else %>
+          <td></td>
+        <% end %>  
+      <% end %>   
   </tr>
 </table>
 

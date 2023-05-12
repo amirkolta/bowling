@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_28_161103) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_31_181515) do
   create_table "frames", force: :cascade do |t|
     t.string "rolls"
     t.integer "score", default: 0
@@ -18,6 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_28_161103) do
     t.integer "game_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "bonus_rolls_needed", default: 0
     t.index ["game_id"], name: "index_frames_on_game_id"
   end
 

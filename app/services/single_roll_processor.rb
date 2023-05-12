@@ -2,6 +2,8 @@ class SingleRollProcessor
   def self.process(game, roll)
     current_frame = game.current_frame
     new_roll_score = current_frame.add_roll_and_get_knocked_pins(roll)
+
+    game.frames.where('position < ?', current_frame.position).update_all('bonus_rolls_needed = bonus_rolls_needed - 1')
     
     if roll != Frame::MISS
       # No bonus in final frame

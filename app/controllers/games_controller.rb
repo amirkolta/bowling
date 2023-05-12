@@ -13,7 +13,7 @@ class GamesController < ApplicationController
   def rolls
     RollsProcessor.process(current_game, rolls_array)
 
-    render json: current_game.reload.frames.select(:rolls, :score).to_json
+    render json: current_game.reload.frames.select(:rolls, :score, :bonus_rolls_needed).to_json
   end
 
   private

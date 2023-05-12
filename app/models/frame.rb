@@ -64,6 +64,15 @@ class Frame < ApplicationRecord
 
     self.rolls << roll
     self.score += knocked_pins
+
+    if position < 10
+      if strike?
+        self.bonus_rolls_needed = 2
+      elsif spare?
+        self.bonus_rolls_needed = 1
+      end
+    end
+
     save!
     
     return knocked_pins
@@ -103,6 +112,12 @@ class Frame < ApplicationRecord
   #
   def add_score(additional_score)
     update!(score: score + additional_score)
+  end
+
+  def decrement_bonus_rolls
+    return if bonus_rolls_needed <= 0
+
+    update!(bonus_rolls_needed: bonus_rolls_needed - 1)
   end
 
   # @return [Boolean]

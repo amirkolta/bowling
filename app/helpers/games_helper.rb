@@ -6,6 +6,6 @@ module GamesHelper
   }
 
   def transformed_rolls(rolls)
-    rolls.map {|roll| CONVERSIONS.key?(roll) ? CONVERSIONS[roll] : roll}.join('  ')
+    rolls.map {|roll| CONVERSIONS.key?(roll) ? CONVERSIONS[roll] : roll}.join(' | ')
   end
 end
